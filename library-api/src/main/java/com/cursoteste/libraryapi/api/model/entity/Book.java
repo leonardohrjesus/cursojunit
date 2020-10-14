@@ -1,21 +1,18 @@
-package com.cursoteste.libraryapi.api.dto;
+package com.cursoteste.libraryapi.api.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class BookDTO {
+public class Book {
 
     private Long id;
 
@@ -29,5 +26,3 @@ public class BookDTO {
     private String isbn;
 
 }
-
-
