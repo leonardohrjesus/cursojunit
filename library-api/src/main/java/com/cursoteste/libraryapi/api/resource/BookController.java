@@ -2,6 +2,7 @@ package com.cursoteste.libraryapi.api.resource;
 
 import com.cursoteste.libraryapi.api.dto.BookDTO;
 import com.cursoteste.libraryapi.api.exception.ApiErrors;
+import com.cursoteste.libraryapi.api.exception.BusinessException;
 import com.cursoteste.libraryapi.api.model.entity.Book;
 import com.cursoteste.libraryapi.api.service.BookService;
 import org.modelmapper.ModelMapper;
@@ -42,5 +43,11 @@ public class BookController {
     public ApiErrors handleValidationExceptions(MethodArgumentNotValidException ex){
         BindingResult bindingResult = ex.getBindingResult();
         return new ApiErrors(bindingResult);
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiErrors handleBusinessException(BusinessException ex){
+        return new ApiErrors(ex);
     }
 }

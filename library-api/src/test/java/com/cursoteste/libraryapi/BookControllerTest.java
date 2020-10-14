@@ -2,6 +2,7 @@ package com.cursoteste.libraryapi;
 
 
 import com.cursoteste.libraryapi.api.dto.BookDTO;
+import com.cursoteste.libraryapi.api.exception.BusinessException;
 import com.cursoteste.libraryapi.api.model.entity.Book;
 import com.cursoteste.libraryapi.api.service.BookService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -48,7 +49,7 @@ public class BookControllerTest {
     @DisplayName("Deve criar um livro com sucesso.")
     public void createBookTest() throws Exception {
 
-        BookDTO dto = BookDTO.builder().author("Artur").title("As aventuras").isbn("001").build();
+        BookDTO dto = createNewBook();
         Book savedBook =Book.builder().id(10l).author("Artur").title("As aventuras").isbn("001").build();
         
         BDDMockito.given(service.save(Mockito.any(Book.class))).willReturn(savedBook);
@@ -90,6 +91,38 @@ public class BookControllerTest {
                 .andExpect(jsonPath("errors", hasSize(3)));
 
     }
+
+    @Test
+    @DisplayName("Deve lançar erro de validação quando não houver dados suficientes para criação do livro")
+    public void CreateBookWithDuplicateIsbn() throws Exception{
+
+        BookDTO dto = createNewBook();
+
+        String json = new ObjectMapper().writeValueAsString(dto);
+        String mensagemErro = "Isbn já cadastrado.";
+        BDDMockito.given(service.save(Mockito.any(Book.class))).
+                willThrow(new BusinessException(mensagemErro));
+
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post(BOOK_API)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(json);
+
+        mvc.perform(request)
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("errors", hasSize(1)))
+                .andExpect(jsonPath("errors[0]").value(mensagemErro));
+
+    }
+
+
+    private  BookDTO createNewBook(){
+        return  BookDTO.builder().author("Artur").title("As aventuras").isbn("001").build();
+    }
+
+
 
 
 
