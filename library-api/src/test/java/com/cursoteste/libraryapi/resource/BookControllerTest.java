@@ -1,13 +1,12 @@
-package com.cursoteste.libraryapi;
+package com.cursoteste.libraryapi.resource;
 
 
 import com.cursoteste.libraryapi.api.dto.BookDTO;
 import com.cursoteste.libraryapi.api.exception.BusinessException;
 import com.cursoteste.libraryapi.api.model.entity.Book;
+import com.cursoteste.libraryapi.api.resource.BookController;
 import com.cursoteste.libraryapi.api.service.BookService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,12 +22,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -40,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
-@WebMvcTest
+@WebMvcTest (controllers = BookController.class)
 @AutoConfigureMockMvc
 public class BookControllerTest {
 
@@ -299,10 +297,6 @@ public class BookControllerTest {
     private  BookDTO createNewBook(){
         return  BookDTO.builder().author("Artur").title("As aventuras").isbn("001").build();
     }
-
-
-
-
 
 
 }
