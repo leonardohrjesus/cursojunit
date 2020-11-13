@@ -5,7 +5,9 @@ import com.cursoteste.libraryapi.api.exception.ApiErrors;
 import com.cursoteste.libraryapi.api.exception.BusinessException;
 import com.cursoteste.libraryapi.api.model.entity.Book;
 import com.cursoteste.libraryapi.api.service.BookService;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +24,9 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/books")
+@RequiredArgsConstructor
 public class BookController {
+
 
     private BookService service;
     private ModelMapper modelMapper;

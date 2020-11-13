@@ -4,6 +4,7 @@ import com.cursoteste.libraryapi.api.exception.BusinessException;
 import com.cursoteste.libraryapi.api.model.entity.Book;
 import com.cursoteste.libraryapi.api.model.repository.BookRepository;
 import com.cursoteste.libraryapi.api.service.BookService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
@@ -66,6 +67,6 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Optional<Book> getBookByIsbn(String isbn) {
-        return Optional.empty();
+        return repository.findByIsbn(isbn);
     }
 }
